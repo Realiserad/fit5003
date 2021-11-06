@@ -1,0 +1,201 @@
+\documentclass[11pt,twoside]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{color}
+\usepackage{url}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[a4paper,margin=2.5cm,hmarginratio=1:1]{geometry}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{lipsum}
+\mdfdefinestyle{MyFrame}{%
+    linecolor=blue,
+    outerlinewidth=2pt,
+    roundcorner=20pt,
+    innertopmargin=\baselineskip,
+    innerbottommargin=\baselineskip,
+    innerrightmargin=20pt,
+    innerleftmargin=20pt,
+    backgroundcolor=gray!50!white
+}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{white},   
+    commentstyle=\color{red},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{purple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%% ENTER YOUR PERSONAL INFORMATION HERE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Your name, personal number, and email.
+\newcommand{\firstname}{Bastian Fredriksson}
+\newcommand{\email}{bfre12@student.monash.edu}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% DO NOT TOUCH ANYTHING BELOW THIS LINE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcounter{problem}
+\renewcommand\theproblem{\arabic{problem}}
+\newenvironment{problem}{%
+  \bigbreak
+  \refstepcounter{problem}\noindent
+  \llap{\textbf{\theproblem}\quad}\ignorespaces
+}{%
+  \par\if@nadaten@solutions\relax\else\filbreak\fi
+}
+\newenvironment{problem*}{%
+  \bigbreak
+  \refstepcounter{problem}\noindent
+  \llap{\textbf{\theproblem}\quad}\ignorespaces
+}{%
+  \par
+}
+\newcounter{subproblem}[problem]
+\renewcommand{\thesubproblem}{\arabic{problem}\alph{subproblem}}
+\newenvironment{subproblem}{%
+  \refstepcounter{subproblem}%
+  \list{}{}%
+  \item\leavevmode
+  \llap{\hbox to \leftmargini{\textbf{\thesubproblem}\hfil}}%
+  \ignorespaces
+}{%
+  \endlist\if@nadaten@solutions\relax\else\filbreak\fi
+}
+\newenvironment{subproblem*}{%
+  \refstepcounter{subproblem}%
+  \list{}{}%
+  \item\leavevmode
+  \llap{\hbox to \leftmargini{\textbf{\thesubproblem}\hfil}}%
+  \ignorespaces
+}{%
+  \endlist
+}
+
+\newcommand{\homeworknr}{1}
+\newcommand{\studentname}{\firstname~\lastnames}
+\newcommand{\homework}{Penetration testing}
+\newcommand{\coursenumber}{FIT5003}
+\newcommand{\coursename}{\coursenumber~Software security}
+\newcommand{\coursenick}{fit5003}
+
+\lhead[\studentname]{\coursename}
+\chead{}
+\rhead[\coursename]{\studentname}
+\lfoot[\thepage~(\pageref{LastPage})]{}
+\cfoot{}
+\rfoot[]{\thepage~(\pageref{LastPage})}
+
+\fancypagestyle{firststyle}
+{
+   \fancyhf{}
+   \fancyfoot[R]{\thepage~(\pageref{LastPage})}
+}
+
+\renewcommand{\headrulewidth}{0pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% HERE YOU CAN ADD YOUR OWN MACROS AND ENVIRONMENTS IN THE PREAMBLE %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Add your macros here.
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% THE FOLLOWING GENERATES THE HEADER %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% DO NOT TOUCH THIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\thispagestyle{firststyle}
+
+\noindent
+\hspace{0.3cm}{\huge\textbf{\coursename}}
+
+\noindent
+\rule{\textwidth}{1pt}
+
+\vspace{0.3cm}
+
+\noindent
+\begin{tabularx}{\textwidth}{lXl}
+  \multirow{3}{*}{\textbf{\huge\homework}} && {\Large\textbf{\studentname}} \\
+&&\\[-0.35cm]
+  && {\Large\texttt{\email}} \\
+&&\\[-0.2cm]
+\cline{3-3}
+&&\\[-0.2cm]
+\end{tabularx}
+
+\vspace{0.2cm}
+\noindent
+\rule{\textwidth}{1pt}
+
+\vspace{0.5cm}
+
+\pagestyle{fancy}
+
+\section{Does the program work?}
+
+The program was compiled successfully with \verb!gcc 0667.c -pthread -o sum!.
+\\\\
+The program was executed with \verb!./sum n m! and computes the sum $f(n, m) = \sum_{i=0}^{n*m-1}i$ where $n$ is the number of threads and $m$ is the increment.
+\\\\
+The program computed the three sums $f(1, 1)$, $f(17, 32)$ and $f(1000, 999999)$ without any errors. My conclusion is that the program works as advertised on my machine.
+
+\section{Threats}
+\begin{tabular}{ l | l | l }
+  \textbf{Threat type} & \textbf{Explanation} & \textbf{Mitigated?} \\
+  Integer overflow & The user inputs characters instead of numbers & \textbf{\textcolor{green}{YES}} \\
+  Integer overflow & The user inputs negative values for $n$ or $m$ & \textbf{\textcolor{green}{YES}} \\
+  Integer overflow & The user inputs very large values for $n$ or $m$ & \textbf{\textcolor{green}{YES}}
+\end{tabular}
+
+\section{Source code analysis}
+Fortify did not detect any flaws in the code. FlawFinder warned about two things:
+\begin{enumerate}
+    \item \verb!./0667.c:189! \textbf{Possible integer overflow if user input is too large or a negative number} \\Checks are in place to mitigate this threat (see above).
+    \item \verb!./0667.c:73! \textbf{Possible buffer overread if the string is not null-terminated} \\The string checked for length is directly taken from the
+    arguments list, so usage of \verb!strlen! is safe.
+\end{enumerate}
+\lstinputlisting[language=C]{code.c}
+\noindent
+The following flaws were detected after a manual walkthrough of the code:
+\\\\
+\begin{tabular}{ l | p{8cm}l | l }
+  \textbf{Type of flaw} & \textbf{Explanation} & \textbf{Severity} \\
+  Memory leak & The programmer does not free threads or thread paramaters allocated on the heap. & \textbf{\textcolor{BurntOrange}{MODERATE}} \\
+  Missing null-check & The programmer does not check for null after invoking \verb!malloc!. & \textbf{\textcolor{green}{LOW}}
+\end{tabular}
+
+\section{Penetration test}
+\todo{No vulnerabilities were found during penetration testing.}
+\end{document}

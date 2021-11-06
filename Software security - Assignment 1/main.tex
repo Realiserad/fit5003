@@ -1,0 +1,186 @@
+\documentclass[11pt,twoside]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{url}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[a4paper,margin=2.5cm,hmarginratio=1:1]{geometry}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{lipsum}
+\mdfdefinestyle{MyFrame}{%
+    linecolor=blue,
+    outerlinewidth=2pt,
+    roundcorner=20pt,
+    innertopmargin=\baselineskip,
+    innerbottommargin=\baselineskip,
+    innerrightmargin=20pt,
+    innerleftmargin=20pt,
+    backgroundcolor=gray!50!white}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%% ENTER YOUR PERSONAL INFORMATION HERE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Your name, personal number, and email.
+\newcommand{\firstname}{Bastian Fredriksson}
+\newcommand{\email}{bfre12@student.monash.edu}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% DO NOT TOUCH ANYTHING BELOW THIS LINE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcounter{problem}
+\renewcommand\theproblem{\arabic{problem}}
+\newenvironment{problem}{%
+  \bigbreak
+  \refstepcounter{problem}\noindent
+  \llap{\textbf{\theproblem}\quad}\ignorespaces
+}{%
+  \par\if@nadaten@solutions\relax\else\filbreak\fi
+}
+\newenvironment{problem*}{%
+  \bigbreak
+  \refstepcounter{problem}\noindent
+  \llap{\textbf{\theproblem}\quad}\ignorespaces
+}{%
+  \par
+}
+\newcounter{subproblem}[problem]
+\renewcommand{\thesubproblem}{\arabic{problem}\alph{subproblem}}
+\newenvironment{subproblem}{%
+  \refstepcounter{subproblem}%
+  \list{}{}%
+  \item\leavevmode
+  \llap{\hbox to \leftmargini{\textbf{\thesubproblem}\hfil}}%
+  \ignorespaces
+}{%
+  \endlist\if@nadaten@solutions\relax\else\filbreak\fi
+}
+\newenvironment{subproblem*}{%
+  \refstepcounter{subproblem}%
+  \list{}{}%
+  \item\leavevmode
+  \llap{\hbox to \leftmargini{\textbf{\thesubproblem}\hfil}}%
+  \ignorespaces
+}{%
+  \endlist
+}
+
+\newcommand{\homeworknr}{1}
+\newcommand{\studentname}{\firstname~\lastnames}
+\newcommand{\homework}{Assignment~\homeworknr}
+\newcommand{\coursenumber}{FIT5003}
+\newcommand{\coursename}{\coursenumber~Software security}
+\newcommand{\coursenick}{fit5003}
+
+\lhead[\studentname]{\coursename}
+\chead{}
+\rhead[\coursename]{\studentname}
+\lfoot[\thepage~(\pageref{LastPage})]{}
+\cfoot{}
+\rfoot[]{\thepage~(\pageref{LastPage})}
+
+\fancypagestyle{firststyle}
+{
+   \fancyhf{}
+   \fancyfoot[R]{\thepage~(\pageref{LastPage})}
+}
+
+\renewcommand{\headrulewidth}{0pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% HERE YOU CAN ADD YOUR OWN MACROS AND ENVIRONMENTS IN THE PREAMBLE %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Add your macros here.
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% THE FOLLOWING GENERATES THE HEADER %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% DO NOT TOUCH THIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\thispagestyle{firststyle}
+
+\noindent
+\hspace{0.3cm}{\huge\textbf{\coursename}}
+
+\noindent
+\rule{\textwidth}{1pt}
+
+\vspace{0.3cm}
+
+\noindent
+\begin{tabularx}{\textwidth}{lXl}
+  \multirow{3}{*}{\textbf{\huge\homework}} && {\Large\textbf{\studentname}} \\
+&&\\[-0.35cm]
+  && {\Large\texttt{\email}} \\
+&&\\[-0.2cm]
+\cline{3-3}
+&&\\[-0.2cm]
+\end{tabularx}
+
+\vspace{0.2cm}
+\noindent
+\rule{\textwidth}{1pt}
+
+\vspace{0.5cm}
+
+\pagestyle{fancy}
+
+\section{What the program does}
+The program calculates the factorial of any integer $n$, that is the product $\Pi_{i=1}^{n}i$.
+
+\section{How to compile}
+You need GNU Multi Precision Library (GMP) to compile the program. In Ubuntu, run \verb!sudo apt-get install libgmp-dev! to install it.
+
+\begin{mdframed}[style=MyFrame]
+Compile with \verb!gcc fact.c -std=c99 -pthread -lgmp -O3 -o fact!
+\end{mdframed}
+
+\section{How to use}
+
+The program requires two flags \verb!-i!, the number of integers processed by each thread and \verb!-t!, the number of threads. For example, to calculate
+$300 = 30 * 10$ factorial, type something like \verb!./fact -i 30 -t 10!.
+
+\begin{mdframed}[style=MyFrame]
+Type \verb!./fact! without any arguments to get help.
+\end{mdframed}
+
+\section{Speed of execution}
+\begin{verbatim}
+time ./fact -i 1000 -t 100
+Computing 100000!
+(Lots of output)
+real   0m10.041s
+user   0m4.375s
+sys    0m0.072s
+\end{verbatim}
+
+If you use the flag \verb!-d!, you get the execution time of each thread. It might for example look like this:
+
+\begin{verbatim}
+> ./fact -i 100000 -t 4 -d
+Computing 400000!
+Thread 0 finished in 3 ms.
+Thread 2 finished in 3 ms.
+Thread 1 finished in 3 ms.
+Thread 3 finished in 4 ms.
+(Lots of output)
+\end{verbatim}
+
+\section{Limitations}
+The program limits the number of threads that can be created. The default limit is 300 threads, you get change it by redefining \verb!MAX_THREADS!. The operating system also has an internal limit for the number of threads per process. This limit can be changed by editing the file \verb!/proc/sys/kernel/threads-max!.
+
+\end{document}

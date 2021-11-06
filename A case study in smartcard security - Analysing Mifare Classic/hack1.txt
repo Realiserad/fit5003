@@ -1,0 +1,13 @@
+# Assuming Debian flavoured distro
+sudo apt-get install autoconf libtool libusb-dev libpcsclite-dev build-essential
+wget http://dl.bintray.com/nfc-tools/sources/libnfc-1.7.1.tar.bz2
+tar xf libnfc-1.7.1.tar.bz2
+cd libnfc-1.7.1
+autoreconf -vis
+./configure --with-drivers=all --sysconfdir=/etc --prefix=/usr
+make
+sudo make install
+sudo mkdir /etc/nfc
+sudo mkdir /etc/nfc/devices.d
+# Run this if you use PN532 chipset with TTL-cable
+sudo cp contrib/libnfc/pn532_via_uart2usb.conf.sample /etc/nfc/devices.d/pn532_via_uart2usb.conf

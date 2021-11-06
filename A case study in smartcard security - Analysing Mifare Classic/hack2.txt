@@ -1,0 +1,16 @@
+wget https://github.com/nfc-tools/mfcuk/archive/mfcuk-0.3.8.tar.gz
+tar xf mfcuk-0.3.8.tar.gz && cd mfcuk-mfcuk-0.3.8/
+automake --add-missing
+autoconf
+./configure
+make
+sudo make install
+wget https://github.com/nfc-tools/mfoc/archive/mfoc-0.10.7.tar.gz
+tar xf mfoc-0.10.7.tar.gz 
+cd mfoc-mfoc-0.10.7
+autoreconf -vis
+./configure
+make
+sudo make install 
+# Should output something like /usr/local/bin/*
+which mfcuk && which mfoc
